@@ -7,7 +7,9 @@ A few coding challenge type stuffs
 
 I've chosen Go for this exercise. This is partially due to the fact that I've been exploring Go over the past few months, and also because this is based on a backend server I've been working on for another project.
 
-Here, I'd like to digress a TEENSY bit into file systems. Since I wanted 
+Here, I'd like to digress a TEENSY bit into file systems. Since I wanted to try and learn how Go projects are 
+
+I also wanted to have multiple things 
 
 ## Step 1: Basic HTTP
 
@@ -18,6 +20,8 @@ The most common HTTP request is the GET request. With this request, a client ask
 Go's `net` module has a package for HTTP handling - aptly known as `http`. To start our server project, we establish a handler function (as the 
 
 I did this as a "submodule" and wasn't super sure how to handle it since I couldn't call it in `main` without an explicit return value, so I basically did the ol' C trick - return 0 if it's successful or 1 if something happens.
+
+I should note that I did this part in GitHub Codespaces, so there was a bit of wonkiness when trying to start the server - it was able to serve what I had told it to, but couldn't handle any routes for whatever reason.
 
 ## Step 2: HTM Losche!
 

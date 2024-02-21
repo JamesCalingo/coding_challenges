@@ -21,7 +21,9 @@ I did this as a "submodule" and wasn't super sure how to handle it since I could
 
 ## Step 2: HTM Losche!
 
-Now that we can serve something up, let's make things a bit more interesting by making said thing a bit more complex.
+Now that we can serve something up, let's make things a bit more interesting by making said thing a bit more complex: An HTML document.
+
+In case you didn't know, you're reading an HTML document right now! 
 
 ## Step 3: Concurrency
 
@@ -31,12 +33,12 @@ One of the things Go is most well known for is its concurrency paradigms using t
 
 Web servers are not like the checkout line at the local store: they need to be able to handle multiple clients asking them for information all at once.
 
-It's important that we're not only able to handle this traffic, but handle it *well*; for example, you wouldn't want to, say, run into massive issues should our server be called upon by [EVERY SINGLE GAMESTOP IN THE UNITED STATES](https://www.polygon.com/2015/4/2/8337499/gamestops-website-down-amiibo-ness). This 
-
 ## Step 4: Wildcards
 
-So now we have a server that can not only serve data, but can handle multiple client requests at once.
-
-However, there's one thing we should shore up: client requests for information we don't have (i.e. the ol' 404 not found).
+There's one thing we should shore up for our server before we call it "complete for now": client requests for information we don't have (i.e. the ol' 404 not found).
 
 Go's http module has features that are, to put it bluntly, seemingly pessimistic. For example, the ListenAndServe function we've been using returns an error - but it only returns if said error occurs.
+
+# Chapter 2: Load Testing
+
+We now have a web server that can parse requests from clients and serve them various pieces of data. However, it's important that we're not only able to handle any traffic on our server, but handle it *well*; for example, we wouldn't want to, say, run into massive issues should our server be called upon by [EVERY SINGLE GAMESTOP IN THE UNITED STATES](https://www.polygon.com/2015/4/2/8337499/gamestops-website-down-amiibo-ness).

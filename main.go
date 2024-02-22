@@ -1,8 +1,8 @@
 package main
 
 import "fmt"
-import "challenges/internal/serverone"
+import "challenges/internal/server"
 
 func main() {
-	fmt.Println(serverone.Serve())
+	fmt.Println(server.ServeHTML())
 }

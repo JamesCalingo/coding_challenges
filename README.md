@@ -32,7 +32,9 @@ Now that we can serve something up, let's make things a bit more interesting by 
 
 In case you didn't know, you're reading an HTML document right now! 
 
+As for how we can create a
 
+The most important thing to remember here is to go from the ROOT PATH. The actual server definition is "buried" in somme folders, but the app is running from the root (main.go), so I think we need to make sure
 
 ## Step 3: Concurrency
 

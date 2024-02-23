@@ -5,8 +5,6 @@ import (
 	"net/http"
 )
 
-
-
 func ServeHTML() int {
 	http.Handle("/", http.FileServer(http.Dir("./public")))
 	err := http.ListenAndServe(":8080", nil)
@@ -14,5 +12,6 @@ func ServeHTML() int {
 		fmt.Print("An error occurred")
 		return 1
 	}
+	fmt.Print("Running on :8080")
 	return 0
 }

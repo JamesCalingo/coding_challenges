@@ -7,5 +7,6 @@ import (
 
 func main() {
 	fmt.Println("Up and running")
+	// server.Serve()
 	server.ServeHTML()
 }

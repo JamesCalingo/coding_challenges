@@ -28,16 +28,15 @@ I made a 404 page, and we're actually able to access it if it's in our public di
 
 Here's where the decision to use Go for this really begins to get interesting: instead of making one server, I tried to write two different servers - one for frontend and one for backend. Obviously, I used different ports for them, but alas, only one can run at a time...or can it?
 
-One of the things Go is most well known for is its concurrency paradigms, so I figured that there MIGHT be a way to have both run at the same time.
+I know that concurrency is a thing; I used it for a monorepo project WAY back in the day. However, I was, to put it bluntly, kinda stupid back then and probably copied it from somewhere without understanding what was actually going on. However, one of the things Go is most well known for is its concurrency paradigms, so I figured that there MIGHT be a way to have both run at the same time. As it turns out
 
-<!-- # Chapter 2: Load Testing -->
+<!-- # Part 2: The Load Tester -->
 
-<!-- We now have a web server that can parse requests from clients and serve them various pieces of data. However, it's important that we're not only able to handle any traffic on our server, but handle it *well*; for example, we wouldn't want to, say, run into massive issues should our server be called upon by [EVERY SINGLE GAMESTOP IN THE UNITED STATES](https://www.polygon.com/2015/4/2/8337499/gamestops-website-down-amiibo-ness).
+<!-- We now have a web server that can parse requests from clients and serve them various pieces of data. However, it's important that we're not only able to handle any traffic on our server, but handle it *well*; for example, we wouldn't want to, say, run into massive issues should our server be called upon by [EVERY SINGLE GAMESTOP IN THE UNITED STATES](https://www.polygon.com/2015/4/2/8337499/gamestops-website-down-amiibo-ness). Therefore, something like a load tester/bearer would be good for us to have.
 
-## Step 0: The language
+The first step is to make sure we can send/capture any requests that end up on our server. Thankfully, the ol' `http` package helps us immensely here, as we can set up a GET request 
 
-Let's not get weird here and stick with Go. 
+Now that we have a way to send automated requests, let's send a bunch of them. We're going to use a loop for this particular 
 
-## Step 1
-
-I have no clue what this is, but  -->
+However, that loop makes those requests sequentially, and more often than not, we're not going to see reqests come in in sequence - they're all going to be coming in concurrently. Again, we don't want to end up in a GameStop situation, so we should make sure we can handle massive concurrent loads as well (BTW, this is also known as a DDOS attack).
+  -->

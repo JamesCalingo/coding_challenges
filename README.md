@@ -1,4 +1,4 @@
-# Basic Server and Load Tester
+# Basic Server
 
 Based on John Crickett's Coding Challenges, I've decided to try one of them out - well, actually two of them.
 
@@ -10,7 +10,7 @@ To start, I made sure we could actually take care of HTTP requests. Go's `net` m
 
 I should note that I did this as a "submodule" and wasn't super sure how to handle it since I couldn't call it in `main` without an explicit return value, so I basically did the ol' C trick - return 0 if it's successful or 1 if something happens. Also, I did a lot of this part in GitHub Codespaces, so there was a bit of wonkiness when trying to start the server - it was able to serve what I had told it to, but couldn't handle any routes for whatever reason. However, it worked fine when I downloiaded the code onto my computer and ran it locally (though the name "localhost" should have made that obvious - especially since CodeSpaces isn't exactly "local").
 
-Once I knew that the server can serve something up, I wanted to serve something slightly more complex: An HTML document. Go's http package has a function that returns a handler: `FileServer`. I set the handler to serve a folder I called "public" (borrowing from the world of JS frontend library React), stuck an `index.html` file in there, and 
+Once I knew that the server can serve something up, I wanted to serve something slightly more complex: An HTML document. Go's http package has a function that returns a handler: `http.FileServer`. I set the handler to serve a folder I called "public" (borrowing from the world of JS frontend library React), stuck an `index.html` file in there, and then used `http.FileServer` and `http.Dir()` to serve the public folder.
 
 The most important thing to remember here is to go from the ROOT PATH. The actual server definition is "buried" in somme folders, but the app is running from the root (main.go), so I think we need to make sure that the pathing is correct or else we'll end up always getting a 404 not found error.
 
@@ -20,23 +20,20 @@ We're not QUITE done here, as there's another important consideration we have to
 
 Wildcards.
 
-With the simple server, we can actually serve a fair amount of "wildcard" requests. For example, a route such as "localhost:8080/this-is-not-the-droid-that-you-are-looking-for" will actually yield the request route and serve a result. However, we cannot do that with HTML documents. 
+With the simple server, we can actually serve a fair amount of "wildcard" requests. For example, a route such as "localhost:8080/this-is-not-the-droid-that-you-are-looking-for" will actually yield the request route and serve a result. However, we cannot do that with HTML documents.
 
-The generic response I got from the server when trying to find nonextant things in the HTML server was a simple "404 page not found" message, which is, in all honesty, fine. However, I personally consider that a bit weak especially for a website; I'd like to have a special page for any bad requests like this.
+The generic response I got from the server when trying to find nonextant things in the HTML server was a simple "404 page not found" message, which is, in all honesty, fine. However, I'd like to have a special page for any bad requests like this; IMO, it's a better signal to the end user that they made a bad request.
 
-I made a 404 page, and we're actually able to access it if it's in our public directory by simply requesting `localhost:8080/404.html`. However, what we need is to redirect any "bad" requests to this page; for example, if we tried to get `localhost:8080/random_page_generator` and it didn't exist, we should be rerouted to `404.html`. To do this part, 
+I made a 404 page, and we're actually able to access it if it's in our public directory by simply requesting `localhost:8080/404.html`. However, what we need is to redirect any "bad" requests to this page; for example, if we tried to get `localhost:8080/random_page_generator` and it didn't exist, we should be rerouted to `404.html`. To do this part, I ended up deep in the research "woods" before realizing that 
 
-Here's where the decision to use Go for this really begins to get interesting: instead of making one server, I tried to write two different servers - one for frontend and one for backend. Obviously, I used different ports for them, but alas, only one can run at a time...or can it?
+Here's where the decision to use Go for this really begins to get interesting: instead of making one server, I tried to write two different servers - one for frontend and one for backend. Obviously, I used different ports for them (:3000 for the HTML pages and :8080 for the backend stuff), but alas, only one can run at a time...or can it?
 
-I know that concurrency is a thing; I used it for a monorepo project WAY back in the day. However, I was, to put it bluntly, kinda stupid back then and probably copied it from somewhere without understanding what was actually going on. However, one of the things Go is most well known for is its concurrency paradigms, so I figured that there MIGHT be a way to have both run at the same time. As it turns out
+I know that concurrency is a thing; I used it for a monorepo project WAY back in the day. However, I was, to put it bluntly, kinda stupid back then and probably copied it from somewhere without understanding what was actually going on. However, one of the things Go is most well known for is its concurrency paradigms, so I figured that there MIGHT be a way to have both run at the same time. As it turns out, Goroutines are our friend here.
+
+A Goroutine is, in short, a singular programming thread within Go. Thanks to Goroutines, I was able to get both ports routed to the same server...but that's not quite what I had in mind. However, in order for the two ports to serve different things (i.e. frontend and backend), I did a bit more digging.
 
 <!-- # Part 2: The Load Tester -->
 
-<!-- We now have a web server that can parse requests from clients and serve them various pieces of data. However, it's important that we're not only able to handle any traffic on our server, but handle it *well*; for example, we wouldn't want to, say, run into massive issues should our server be called upon by [EVERY SINGLE GAMESTOP IN THE UNITED STATES](https://www.polygon.com/2015/4/2/8337499/gamestops-website-down-amiibo-ness). Therefore, something like a load tester/bearer would be good for us to have.
+ Originally, I intended to have both a web server and an HTTP Load Tester in this repository. However, it ended up not working out in practice, so I decided to split it into its own project/repository - which you can view here:
 
-The first step is to make sure we can send/capture any requests that end up on our server. Thankfully, the ol' `http` package helps us immensely here, as we can set up a GET request 
-
-Now that we have a way to send automated requests, let's send a bunch of them. We're going to use a loop for this particular 
-
-However, that loop makes those requests sequentially, and more often than not, we're not going to see reqests come in in sequence - they're all going to be coming in concurrently. Again, we don't want to end up in a GameStop situation, so we should make sure we can handle massive concurrent loads as well (BTW, this is also known as a DDOS attack).
-  -->
+# [LOAD TESTER](https://github.com/JamesCalingo/go_loadtester)

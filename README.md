@@ -16,7 +16,9 @@ The most important thing to remember here is to go from the ROOT PATH. The actua
 
 Also, while running thses in the browser is probably the more "common" way to view what the server is doing, it's not the only way: you can use the `curl` command in a Terminal shell. I note this here because if you try to GET the HTML doc in Terminal, you get the actual HTML with tags and everything; in the browser, you get the HTML translated into a webpage (there's a TON that goes into that whole process, but we're not going to get into that today).
 
-We're not QUITE done here, as there's another important consideration we have to take into account:
+There's still a few things that I'm working on for this, but I hope this gives you an idea of how to set up a server.
+
+<!-- We're not QUITE done here, as there's another important consideration we have to take into account:
 
 Wildcards.
 
@@ -32,8 +34,6 @@ I know that concurrency is a thing; I used it for a monorepo project WAY back in
 
 A Goroutine is, in short, a singular programming thread within Go. Thanks to Goroutines, I was able to get both ports routed to the same server...but that's not quite what I had in mind. However, in order for the two ports to serve different things (i.e. frontend and backend), I did a bit more digging.
 
-<!-- # Part 2: The Load Tester -->
-
  Originally, I intended to have both a web server and an HTTP Load Tester in this repository. However, it ended up not working out in practice, so I decided to split it into its own project/repository - which you can view here:
 
-### [LOAD TESTER](https://github.com/JamesCalingo/go_loadtester)
+### [LOAD TESTER](https://github.com/JamesCalingo/go_loadtester) -->

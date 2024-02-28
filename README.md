@@ -2,7 +2,7 @@
 
 Based on John Crickett's Coding Challenges, I've decided to try one of them out - well, actually two of them.
 
-# PART 1: The Server
+## PART 1: The Server
 
 This ended up being way simpler than I thought it'd be, though that may be becuase I chose Go for this exercise. This is partially due to the fact that I've been exploring Go over the past few months, and also because this is based on a backend server I've been working on for another project.
 
@@ -36,4 +36,4 @@ A Goroutine is, in short, a singular programming thread within Go. Thanks to Gor
 
  Originally, I intended to have both a web server and an HTTP Load Tester in this repository. However, it ended up not working out in practice, so I decided to split it into its own project/repository - which you can view here:
 
-# [LOAD TESTER](https://github.com/JamesCalingo/go_loadtester)
+### [LOAD TESTER](https://github.com/JamesCalingo/go_loadtester)

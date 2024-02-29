@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -14,6 +15,7 @@ func Serve() int {
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Print("An error occurred")
+		log.Fatal(err)
 		return 1
 	}
 	return 0

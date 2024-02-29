@@ -7,6 +7,8 @@ import (
 
 func main() {
 	fmt.Println("Up and running")
-	server.ServeHTML()
-	// server.Serve()
+	go func() {
+		server.ServeHTML()
+	}()
+	server.Serve()
 }

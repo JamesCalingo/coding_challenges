@@ -11,7 +11,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func Serve() int {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/api/", handler)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Print("An error occurred")

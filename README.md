@@ -16,6 +16,12 @@ The most important thing to remember here is to go from the ROOT PATH. The actua
 
 Also, while running thses in the browser is probably the more "common" way to view what the server is doing, it's not the only way: you can use the `curl` command in a Terminal shell. I note this here because if you try to GET the HTML doc in Terminal, you get the actual HTML with tags and everything; in the browser, you get the HTML translated into a webpage (there's a TON that goes into that whole process, but we're not going to get into that today).
 
+Here's where the decision to use Go for this really begins to get interesting: instead of making one server, I tried to write two different servers - one for frontend and one for backend. Obviously, I used different ports for them (:3000 for the HTML pages and :8080 for the backend stuff), but alas, only one can run at a time...or can it?
+
+I know that concurrency is a thing; I used it for a monorepo project WAY back in the day. However, I was, to put it bluntly, kinda stupid back then and probably copied it from somewhere without understanding what was actually going on. However, one of the things Go is most well known for is its concurrency paradigms, so I figured that there MIGHT be a way to have both run at the same time. As it turns out, Goroutines are our friend here.
+
+A Goroutine is, in short, a singular programming thread within Go. Thanks to Goroutines, I was able to get both ports routed to the same server...but that's not quite what I had in mind. However, in order for the two ports to serve different things (i.e. frontend and backend), I ended up creating a "backend route", so to speak - frontend requests are resolved at the root, while backend requests use an additional path which I called "api".
+
 There's still a few things that I'm working on for this, but I hope this gives you an idea of how to set up a server.
 
 <!-- We're not QUITE done here, as there's another important consideration we have to take into account:
@@ -26,13 +32,9 @@ With the simple server, we can actually serve a fair amount of "wildcard" reques
 
 The generic response I got from the server when trying to find nonextant things in the HTML server was a simple "404 page not found" message, which is, in all honesty, fine. However, I'd like to have a special page for any bad requests like this; IMO, it's a better signal to the end user that they made a bad request.
 
-I made a 404 page, and we're actually able to access it if it's in our public directory by simply requesting `localhost:8080/404.html`. However, what we need is to redirect any "bad" requests to this page; for example, if we tried to get `localhost:8080/random_page_generator` and it didn't exist, we should be rerouted to `404.html`. To do this part, I ended up deep in the research "woods" before realizing that 
+I made a 404 page, and we're actually able to access it if it's in our public directory by simply requesting `localhost:3000/404.html`. However, what we need is to redirect any "bad" requests to this page; for example, if we tried to get `localhost:3000/random_page_generator` and it didn't exist, we should be rerouted to `404.html`. To do this part, I ended up deep in the research "woods" before realizing that 
 
-Here's where the decision to use Go for this really begins to get interesting: instead of making one server, I tried to write two different servers - one for frontend and one for backend. Obviously, I used different ports for them (:3000 for the HTML pages and :8080 for the backend stuff), but alas, only one can run at a time...or can it?
-
-I know that concurrency is a thing; I used it for a monorepo project WAY back in the day. However, I was, to put it bluntly, kinda stupid back then and probably copied it from somewhere without understanding what was actually going on. However, one of the things Go is most well known for is its concurrency paradigms, so I figured that there MIGHT be a way to have both run at the same time. As it turns out, Goroutines are our friend here.
-
-A Goroutine is, in short, a singular programming thread within Go. Thanks to Goroutines, I was able to get both ports routed to the same server...but that's not quite what I had in mind. However, in order for the two ports to serve different things (i.e. frontend and backend), I did a bit more digging.
+And that's my web server!
 
  Originally, I intended to have both a web server and an HTTP Load Tester in this repository. However, it ended up not working out in practice, so I decided to split it into its own project/repository - which you can view here:
 

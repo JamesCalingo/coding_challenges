@@ -24,18 +24,26 @@ A Goroutine is, in short, a singular programming thread within Go. Thanks to Gor
 
 There's still a few things that I'm working on for this, but I hope this gives you an idea of how to set up a server.
 
-<!-- We're not QUITE done here, as there's another important consideration we have to take into account:
+...or at least that's what I thought, but then I receieved a "challenge":
 
-Wildcards.
+try it without the training wheels.
 
-With the simple server, we can actually serve a fair amount of "wildcard" requests. For example, a route such as "localhost:8080/this-is-not-the-droid-that-you-are-looking-for" will actually yield the request route and serve a result. However, we cannot do that with HTML documents.
+Like I said, `http` makes this almost too easy, so let's see if we can't get similar results without it and just using the `net` package.
 
-The generic response I got from the server when trying to find nonextant things in the HTML server was a simple "404 page not found" message, which is, in all honesty, fine. However, I'd like to have a special page for any bad requests like this; IMO, it's a better signal to the end user that they made a bad request.
+The first thing I did was establish the ability to log connections. To do this, I used the `Listen` and `Accept` functions from the `net` package, and ended up being able to log pointers to memory addresses (though I'm not fully certain what this means). Once we establish said connection, we should probably write something to it - but here's where things start getting interesting.
 
-I made a 404 page, and we're actually able to access it if it's in our public directory by simply requesting `localhost:3000/404.html`. However, what we need is to redirect any "bad" requests to this page; for example, if we tried to get `localhost:3000/random_page_generator` and it didn't exist, we should be rerouted to `404.html`. To do this part, I ended up deep in the research "woods" before realizing that 
+I tried this using curl and got a client side error: `Received HTTP/0.9 when not allowed`. To try and understand this better, the `--verbose` flag when connecting yields this:
 
-And that's my web server!
-
- Originally, I intended to have both a web server and an HTTP Load Tester in this repository. However, it ended up not working out in practice, so I decided to split it into its own project/repository - which you can view here:
-
-### [LOAD TESTER](https://github.com/JamesCalingo/go_loadtester) -->
+```
+  Trying [::1]:8080...
+* connect to ::1 port 8080 failed: Connection refused
+*   Trying 127.0.0.1:8080...
+* Connected to localhost (127.0.0.1) port 8080
+> GET / HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.4.0
+> Accept: */*
+> 
+* Received HTTP/0.9 when not allowed
+* Closing connection
+```

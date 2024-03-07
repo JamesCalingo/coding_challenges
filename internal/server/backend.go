@@ -7,12 +7,12 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Your request: %s", r.URL.Path[1:])
+	fmt.Fprintf(w, r.Proto)
 }
 
-func Serve() int {
-	http.HandleFunc("/api/", handler)
-	err := http.ListenAndServe(":8080", nil)
+func Serve(port string) int {
+	http.HandleFunc("/", handler)
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		fmt.Print("An error occurred")
 		log.Fatal(err)
